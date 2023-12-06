@@ -28,6 +28,12 @@ app.get('/', (request, response) => {
     response.send('App works!!')
 })
 
+app.get('/info', (request, response) => {
+    const total = persons.length
+    const date = new Date()
+    response.send(`Phonebook has info for ${total} people <br /> <br /> ${date}`)
+})
+
 app.get('/api/persons', (request, response) => {
     response.json(persons)
 })
