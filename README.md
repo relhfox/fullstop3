@@ -1,1 +1,1 @@
-# fullstop3
+The completed exercises for the Part 3 of the Full Stack Open course.
