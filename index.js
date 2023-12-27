@@ -53,10 +53,23 @@ app.get('/api/persons/:id', (request, response) => {
 })
 
 app.post('/api/persons', (request, response) => {
+
     const person = request.body
-    person.id = Math.floor(Math.random() * 999999)
-    persons = persons.concat(person)
-    response.json(person)
+
+    const duplicate = persons.find(obj =>
+        obj.name.toLowerCase() === person.name.toLowerCase()
+    )
+
+    if (person.name && person.number && !duplicate) {
+
+        person.id = Math.floor(Math.random() * 999999)
+        persons = persons.concat(person)
+        response.json(person)
+        
+    } else {
+        const errMess = { error: 'name must be unique' }
+        response.status(400).json(errMess)
+    }
 })
 
 app.delete('/api/persons/:id', (request, response) => {
