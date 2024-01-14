@@ -1,0 +1,13 @@
+GET https://fullstop3.fly.dev/api/persons
+
+###
+POST https://fullstop3.fly.dev/api/persons
+Content-Type: application/json
+
+{ 
+    "name": "New Person", 
+    "number": "111-111-111"
+}
+
+###
+DELETE https://fullstop3.fly.dev/api/persons/730549
