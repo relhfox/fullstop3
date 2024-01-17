@@ -6,6 +6,10 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
+    "build:ui": "@powershell Remove-Item -Recurse -Force dist && cd ../fullstackopen/part2/phonebook && npm run build && @powershell Rename-Item build -Force -NewName dist && @powershell Move-Item dist -Force -Destination ../../../fullstop3",
+    "deploy": "fly deploy",
+    "deploy:full": "npm run build:ui && npm run deploy",
+    "logs:prod": "fly logs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "relhfox",
