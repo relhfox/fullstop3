@@ -14,6 +14,7 @@ app.use(express.static('dist'))
 app.use(express.json())
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :mydata'))
 
+/*
 let persons = [
     { 
         id: 1,
@@ -36,6 +37,7 @@ let persons = [
         number: "39-23-6423122"
     }
 ]
+*/
 
 app.get('/', (request, response) => {
     response.send('App works!')
@@ -67,8 +69,21 @@ app.get('/api/persons/:id', (request, response) => {
 
 app.post('/api/persons', (request, response) => {
 
-    const person = request.body
+    const body = request.body
 
+    if (body.name === undefined) {
+        return response.status(400).json({ error: 'content missing' })
+    }
+
+    const person = new Person({
+        name: body.name,
+        number: body.number,
+    })
+
+    person.save().then(savedPerson => {
+        response.json(savedPerson)
+    })
+    /*
     const duplicate = persons.find(obj =>
         obj.name.toLowerCase() === person.name.toLowerCase()
     )
@@ -82,6 +97,7 @@ app.post('/api/persons', (request, response) => {
     } else {
         response.status(400).send({ error: 'name must be unique' })
     }
+    */
 })
 
 app.delete('/api/persons/:id', (request, response) => {
