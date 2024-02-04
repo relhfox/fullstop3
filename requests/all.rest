@@ -10,4 +10,13 @@ Content-Type: application/json
 }
 
 ###
+PUT http://localhost:3001/api/persons/65bf953d442aa2d38736413c
+Content-Type: application/json
+
+{ 
+    "name": "qwerty", 
+    "number": "555555555555"
+}
+
+###
 DELETE http://localhost:3001/api/persons/65be44

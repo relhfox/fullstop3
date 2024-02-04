@@ -65,22 +65,22 @@ app.post('/api/persons', (request, response, next) => {
             response.json(savedPerson)
         })
         .catch(error => next(error))
+})
 
-    /*
-    const duplicate = persons.find(obj =>
-        obj.name.toLowerCase() === person.name.toLowerCase()
-    )
+app.put('/api/persons/:id', (request, response, next) => {
+    const body = request.body
 
-    if (person.name && person.number && !duplicate) {
-
-        person.id = Math.floor(Math.random() * 999999)
-        persons = persons.concat(person)
-        response.json(person)
-        
-    } else {
-        response.status(400).send({ error: 'name must be unique' })
+    const person = {
+        name: body.name,
+        number: body.number,
     }
-    */
+
+    Person
+        .findByIdAndUpdate(request.params.id, person, { new: true })
+        .then(updatedPerson => {
+            response.json(updatedPerson)
+        })
+        .catch(error => next(error))
 })
 
 app.delete('/api/persons/:id', (request, response, next) => {
