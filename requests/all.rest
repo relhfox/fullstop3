@@ -1,6 +1,9 @@
 GET http://localhost:3001/api/persons
 
 ###
+GET http://localhost:3001/api/persons/65bf
+
+###
 POST http://localhost:3001/api/persons
 Content-Type: application/json
 
@@ -14,7 +17,7 @@ PUT http://localhost:3001/api/persons/65bf953d442aa2d38736413c
 Content-Type: application/json
 
 { 
-    "name": "qwerty", 
+    "name": "New Person", 
     "number": "555555555555"
 }
 

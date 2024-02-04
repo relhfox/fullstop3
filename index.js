@@ -20,12 +20,17 @@ app.get('/', (request, response) => {
 })
 
 app.get('/info', (request, response) => {
-    const total = persons.length
-    const date = new Date()
-    response.send(`Phonebook has info for ${total} people <br /> <br /> ${date}`)
+
+    Person
+        .countDocuments({})
+        .then(total => {
+            const date = new Date()
+            response.send(`Phonebook has info for ${total} people <br /> <br /> ${date}`)
+        })
 })
 
 app.get('/api/persons', (request, response, next) => {
+
     Person
         .find({})
         .then(persons => {
@@ -34,16 +39,18 @@ app.get('/api/persons', (request, response, next) => {
         .catch(error => next(error))
 })
 
-app.get('/api/persons/:id', (request, response) => {
-    
-    const id = Number(request.params.id)
-    const person = persons.find(person => person.id === id)
+app.get('/api/persons/:id', (request, response, next) => {
 
-    if (person) {
-        response.json(person)
-    } else {
-        response.status(404).end()
-    }
+    Person
+        .findById(request.params.id)
+        .then(person => {
+            if (person) {
+                response.json(person)
+            } else {
+                response.status(404).end()
+            }
+        })
+        .catch(error => next(error))
 })
 
 app.post('/api/persons', (request, response, next) => {
@@ -68,6 +75,7 @@ app.post('/api/persons', (request, response, next) => {
 })
 
 app.put('/api/persons/:id', (request, response, next) => {
+
     const body = request.body
 
     const person = {
@@ -84,6 +92,7 @@ app.put('/api/persons/:id', (request, response, next) => {
 })
 
 app.delete('/api/persons/:id', (request, response, next) => {
+    
     Person
         .findByIdAndDelete(request.params.id)
         .then(result => {
@@ -91,6 +100,12 @@ app.delete('/api/persons/:id', (request, response, next) => {
         })
         .catch(error => next(error))
 })
+
+const unknownEndpoint = (request, response) => {
+    response.status(404).send({ error: 'unknown endpoint' })
+}
+
+app.use(unknownEndpoint)
 
 const errorHandler = (error, request, response, next) => {
     console.error(error.message)
